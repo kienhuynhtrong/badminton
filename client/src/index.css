@@ -24,8 +24,11 @@
   --spacing-md: 16px;
   --spacing-lg: 24px;
   --spacing-xl: 32px;
+  width: 100%;
 }
-
+#root {
+  width: 100%;
+}
 a {
   font-weight: 500;
   color: #646cff;
