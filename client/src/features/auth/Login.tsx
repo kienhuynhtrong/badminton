@@ -1,7 +1,9 @@
+import Header from "../../components/header/Header"
 const Login =() => {
   return (
     <div>
-      Login
+      <Header />
+      
     </div>
   )
 }

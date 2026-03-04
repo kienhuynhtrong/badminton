@@ -1,5 +1,5 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Be Vietnam Pro', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -11,6 +11,19 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --color-primary: #0f3b29;
+  --color-secondary: #f6c453;
+  --color-bg: #f8fbf9;
+  --color-surface: #ffffff;
+  --color-text: #1a2e24;
+  --color-text-muted: rgba(26, 46, 36, 0.7);
+  --color-border: #e0e0e0;
+  
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
 }
 
 a {
