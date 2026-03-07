@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
+import cors from 'cors';
 import routes from '#routes/index.js';
 import { connectDB } from '#config/database.js';
 
@@ -9,6 +10,8 @@ const port = process.env.PORT || 3000;
 // Gọi hàm kết nối Database
 connectDB(); // <-- Và thêm dòng này
 
+// Enable CORS
+app.use(cors());
 app.use(express.json());
 
 // Gắn toàn bộ routes vào tiền tố /api
