@@ -1,6 +1,6 @@
 import { Box, Container, Typography, Paper } from '@mui/material'
 
-const HomePage = () => {
+const Payment = () => {
   return (
     <Box
       sx={{
@@ -15,11 +15,10 @@ const HomePage = () => {
           sx={{
             p: { xs: 3, sm: 5 },
             borderRadius: 3,
-            textAlign: 'center',
           }}
         >
           <Typography
-            variant="h3"
+            variant="h4"
             sx={{
               fontWeight: 800,
               mb: 2,
@@ -28,14 +27,15 @@ const HomePage = () => {
               WebkitTextFillColor: 'transparent',
             }}
           >
-            Chào mừng đến với Badminton Arena
+            Tính tiền
           </Typography>
-          <Typography variant="body1" sx={{ color: '#666', fontSize: 18 }}>
-            Hệ thống quản lý và bình chọn cầu lông
+          <Typography variant="body1" sx={{ color: '#666' }}>
+            Trang tính tiền đang được phát triển...
           </Typography>
         </Paper>
       </Container>
     </Box>
   )
 }
-export default HomePage 
+
+export default Payment
