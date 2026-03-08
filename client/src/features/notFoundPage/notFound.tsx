@@ -9,55 +9,38 @@ const NotFoundPage = () => {
 	return (
 		<Box
 			sx={{
-				width: '100%',
-				minWidth: '100vw',
-				minHeight: '100svh',
-				height: '100svh',
-				boxSizing: 'border-box',
-				overflow: 'hidden',
+				minHeight: '100vh',
+				background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
 				display: 'flex',
 				alignItems: 'center',
-				justifyContent: 'center',
-				px: { xs: 2.5, sm: 4 },
-				py: { xs: 4, sm: 6 },
-				bgcolor: '#0f2b1f',
-				backgroundImage:
-					'radial-gradient(circle at 15% 20%, rgba(255, 215, 130, 0.35), transparent 50%),' +
-					'radial-gradient(circle at 80% 10%, rgba(46, 164, 95, 0.35), transparent 55%),' +
-					'linear-gradient(135deg, #0f2b1f 0%, #1d4b34 45%, #e7f3ea 120%)',
+				py: 2,
+				px: { xs: 2, sm: 0 },
 			}}
 		>
 			<Box
 				sx={{
 					width: '100%',
-					maxWidth: 980,
-					bgcolor: 'rgba(255, 255, 255, 0.95)',
-					borderRadius: { xs: 3, sm: 4 },
-					boxShadow: '0 24px 60px rgba(8, 30, 20, 0.35)',
+					maxWidth: 600,
+					margin: '0 auto',
+					bgcolor: '#fff',
+					borderRadius: 3,
+					boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
 					p: { xs: 3, sm: 5 },
-					position: 'relative',
-					overflow: 'hidden',
 				}}
 			>
-				<Box
-					sx={{
-						position: 'absolute',
-						inset: 16,
-						borderRadius: { xs: 2.5, sm: 3 },
-						border: '2px dashed rgba(18, 68, 42, 0.2)',
-						pointerEvents: 'none',
-					}}
-				/>
 
-				<Stack spacing={{ xs: 3, sm: 4 }} sx={{ position: 'relative' }}>
+				<Stack spacing={{ xs: 3, sm: 4 }}>
 					<Stack direction="row" spacing={2} alignItems="center" justifyContent="center">
 						<Typography
 							variant={isSmUp ? 'h1' : 'h2'}
 							sx={{
 								fontWeight: 800,
-								color: '#0f3b29',
+								color: '#1a1a1a',
 								lineHeight: 0.9,
 								fontSize: { xs: 56, sm: 88, md: 120 },
+								background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+								WebkitBackgroundClip: 'text',
+								WebkitTextFillColor: 'transparent',
 							}}
 						>
 							4
@@ -67,58 +50,71 @@ const NotFoundPage = () => {
 								width: { xs: 72, sm: 96, md: 120 },
 								height: { xs: 72, sm: 96, md: 120 },
 								borderRadius: '50%',
-								bgcolor: '#f6c453',
+								bgcolor: '#667eea',
 								display: 'grid',
 								placeItems: 'center',
-								boxShadow: '0 12px 24px rgba(15, 60, 40, 0.25)',
+								boxShadow: '0 8px 24px rgba(102, 126, 234, 0.3)',
 							}}
 						>
-							<SportsTennisIcon sx={{ fontSize: { xs: 36, sm: 48, md: 56 }, color: '#0f3b29' }} />
+							<SportsTennisIcon 
+								sx={{ 
+									fontSize: { xs: 36, sm: 48, md: 56 }, 
+									color: '#fff',
+									animation: 'bounce 2s infinite',
+									'@keyframes bounce': {
+										'0%, 100%': { transform: 'translateY(0)' },
+										'50%': { transform: 'translateY(-10px)' },
+									},
+								}} 
+							/>
 						</Box>
 						<Typography
 							variant={isSmUp ? 'h1' : 'h2'}
 							sx={{
 								fontWeight: 800,
-								color: '#0f3b29',
+								color: '#1a1a1a',
 								lineHeight: 0.9,
 								fontSize: { xs: 56, sm: 88, md: 120 },
+								background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+								WebkitBackgroundClip: 'text',
+								WebkitTextFillColor: 'transparent',
 							}}
 						>
 							4
 						</Typography>
 					</Stack>
 
-					<Stack spacing={1} alignItems={{ xs: 'flex-start', sm: 'center' }}>
+					<Stack spacing={1} alignItems="center">
 						<Typography
 							variant="overline"
 							sx={{
 								letterSpacing: '0.2em',
-								color: 'rgba(15, 59, 41, 0.7)',
+								color: '#999',
+								textTransform: 'uppercase',
 							}}
 						>
-							Badminton arena
+							Sân cầu lông
 						</Typography>
 						<Typography
 							variant={isSmUp ? 'h3' : 'h4'}
 							sx={{
 								fontWeight: 700,
 								textTransform: 'uppercase',
-								color: '#0f3b29',
-								textAlign: { xs: 'left', sm: 'center' },
+								color: '#1a1a1a',
+								textAlign: 'center',
 							}}
 						>
-							This page is out of bounds
+							Trang này không tồn tại
 						</Typography>
 						<Typography
 							variant="body1"
 							sx={{
 								maxWidth: 560,
-								color: 'rgba(15, 59, 41, 0.7)',
-								textAlign: { xs: 'left', sm: 'center' },
+								color: '#666',
+								textAlign: 'center',
 							}}
 						>
-							The shuttle went long. Head back to the home court or sign in to
-							continue your match.
+							Trang bạn tìm kiếm không tồn tại. Vui lòng quay lại trang chủ hoặc đăng nhập để tiếp tục.
 						</Typography>
 					</Stack>
 
@@ -133,12 +129,13 @@ const NotFoundPage = () => {
 							variant="contained"
 							size={isSmUp ? 'large' : 'medium'}
 							sx={{
-								bgcolor: '#1f7a4d',
-								'&:hover': { bgcolor: '#0f5a35' },
+								bgcolor: '#667eea',
+								'&:hover': { bgcolor: '#5568d3' },
 								px: 4,
+								boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
 							}}
 						>
-							Back to home
+							Về trang chủ
 						</Button>
 						<Button
 							component={Link}
@@ -146,12 +143,16 @@ const NotFoundPage = () => {
 							variant="outlined"
 							size={isSmUp ? 'large' : 'medium'}
 							sx={{
-								borderColor: 'rgba(15, 59, 41, 0.5)',
-								color: '#0f3b29',
+								borderColor: '#667eea',
+								color: '#667eea',
+								'&:hover': {
+									borderColor: '#5568d3',
+									bgcolor: 'rgba(102, 126, 234, 0.04)',
+								},
 								px: 4,
 							}}
 						>
-							Go to login
+							Đến trang đăng nhập
 						</Button>
 					</Stack>
 				</Stack>
