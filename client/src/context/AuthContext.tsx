@@ -4,6 +4,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: () => void;
   logout: () => void;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
@@ -17,8 +18,8 @@ export const useAuth = () => {
 }
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   // Check token khi component mount
   useEffect(() => {
@@ -26,6 +27,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (token) {
       setIsAuthenticated(true)
     }
+    setLoading(false)
   }, [])
 
   const login = () => {
@@ -36,7 +38,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem('token')
   }
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   )

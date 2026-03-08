@@ -1,9 +1,9 @@
 import Box from '@mui/material/Box'
-import { Typography, Button } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 import SportsTennisIcon from '@mui/icons-material/SportsTennis'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { useAuth } from '../../context/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 const Header = () => {
   const { logout } = useAuth()
@@ -13,7 +13,11 @@ const Header = () => {
     logout()
     navigate('/login')
   }
-
+  const listDataMenu = [
+    { label: 'Vote kèo', link: '/' },
+    { label: 'Thành viên', link: '/members' },
+    { label: 'Tính tiền', link: '/payment' },
+  ]
   return (
     <Box sx={{
       position: 'fixed',
@@ -32,7 +36,7 @@ const Header = () => {
       boxShadow: '0 2px 8px rgba(102, 126, 234, 0.2)',
       zIndex: 1000,
     }} className="header">
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1.5, sm: 2 } }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1.5, sm: 2 } }}>
         <Box
           sx={{
             display: 'flex',
@@ -45,11 +49,11 @@ const Header = () => {
             backdropFilter: 'blur(10px)',
           }}
         >
-          <SportsTennisIcon 
-            sx={{ 
-              fontSize: { xs: 24, sm: 30 }, 
+          <SportsTennisIcon
+            sx={{
+              fontSize: { xs: 24, sm: 30 },
               color: '#fff',
-            }} 
+            }}
           />
         </Box>
         <Box sx={{
@@ -82,8 +86,34 @@ const Header = () => {
             Quản lý và bình chọn
           </Typography>
         </Box>
-        </Box>
-
+      </Box>
+      <Box sx={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: { xs: 2, sm: 3 },
+      }}>
+        {
+          listDataMenu.map((item, index) => (
+            <Link
+              to={item.link}
+              key={index}
+              style={{ textDecoration: 'none' }}
+            >
+              <Typography
+                variant="body1"
+                sx={{
+                  color: 'rgba(255, 255, 255, 0.8)',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  '&:hover': { color: '#fff' },
+                  transition: 'color 0.2s',
+                }}
+              >
+                {item.label}
+              </Typography>
+            </Link>
+          ))
+        }
         <Button
           variant="outlined"
           startIcon={<LogoutIcon />}
@@ -101,6 +131,7 @@ const Header = () => {
         >
           Đăng xuất
         </Button>
+      </Box>
     </Box>
   )
 }
