@@ -5,12 +5,14 @@ import Register from './features/auth/Register'
 import HomePage from './features/home/HomePage'
 import Member from './features/members/Member'
 import Payment from './features/payment/Payment'
+import GroupsPage from './features/groups/GroupsPage'
+import GroupDetailPage from './features/groups/GroupDetailPage'
 import ProtectedRoute from './context/ProtectedRoute'
 import NotFoundPage from './features/notFoundPage/notFound'
 
 function App() {
   return (
-    <AuthProvider>  
+    <AuthProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
@@ -19,6 +21,8 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/members" element={<Member />} />
             <Route path="/payment" element={<Payment />} />
+            <Route path="/groups" element={<GroupsPage />} />
+            <Route path="/groups/:id" element={<GroupDetailPage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

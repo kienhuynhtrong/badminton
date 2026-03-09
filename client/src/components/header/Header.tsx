@@ -18,6 +18,7 @@ const Header = () => {
     navigate('/login')
   }
   const listDataMenu = [
+    { label: 'Hội nhóm', link: '/groups' },
     { label: 'Vote kèo', link: '/' },
     { label: 'Thành viên', link: '/members' },
     { label: 'Tính tiền', link: '/payment' },
