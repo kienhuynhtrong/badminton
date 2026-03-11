@@ -13,7 +13,7 @@ const GroupDetailPage = () => {
     const groupName = id === '1' ? 'Giao Lưu Cầu Lông Q9 - Thủ Đức' : 'Team Cầu Lông Đỉnh Cao'
 
     return (
-        <Box sx={{ minHeight: 'calc(100vh - 80px)', backgroundColor: '#f8fafc', pb: 8 }}>
+        <Box sx={{ backgroundColor: '#f8fafc', pb: 4 }}>
 
             {/* Nav Header */}
             <Box sx={{ bgcolor: 'white', borderBottom: '1px solid rgba(0,0,0,0.05)', position: 'sticky', top: 0, zIndex: 10 }}>

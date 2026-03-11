@@ -4,7 +4,6 @@ const HomePage = () => {
   return (
     <Box
       sx={{
-        minHeight: 'calc(100vh - 80px)',
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
         py: 4,
       }}
@@ -16,6 +15,7 @@ const HomePage = () => {
             p: { xs: 3, sm: 5 },
             borderRadius: 3,
             textAlign: 'center',
+            pt: 2,
           }}
         >
           <Typography

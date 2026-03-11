@@ -28,18 +28,17 @@ const ProtectedRoute = () => {
   }
 
   return (
-    <Box>
+    <>
       <Header />
       <Box
         sx={{
-          pt: { xs: '64px', sm: '80px' }, // Padding top để tránh bị Header che
-          minHeight: '100vh',
+          marginTop: { md: '80px', xs: '64px' },
         }}
       >
         <Outlet />
       </Box>
-    </Box>
+    </>
   )
 }
 
-export default ProtectedRoute  
+export default ProtectedRoute

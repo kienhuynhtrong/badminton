@@ -87,7 +87,7 @@ const GroupsPage = () => {
     }
 
     return (
-        <Box sx={{ minHeight: 'calc(100vh - 80px)', backgroundColor: '#f8fafc', pb: 8 }}>
+        <Box sx={{ backgroundColor: '#f8fafc', pb: 4 }}>
 
             {/* Hero Header Section */}
             <Box sx={{

@@ -101,6 +101,9 @@ const Member = () => {
     fetchMembers()
   }, [])
   return (
+    <Box sx={{
+        py: 2,
+      }}>
     <Container sx={{ my: 4, mx: 4, display: 'block' }}>
       <Box sx={{ mb: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 800, color: '#1a1a1a' }}>
@@ -147,6 +150,7 @@ const Member = () => {
         </Box>
       )}
     </Container>
+    </Box>
   )
 }
 export default Member

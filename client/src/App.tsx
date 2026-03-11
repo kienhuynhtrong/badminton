@@ -7,6 +7,7 @@ import Member from './features/members/Member'
 import Payment from './features/payment/Payment'
 import GroupsPage from './features/groups/GroupsPage'
 import GroupDetailPage from './features/groups/GroupDetailPage'
+import ProfilePage from './features/profile/ProfilePage'
 import ProtectedRoute from './context/ProtectedRoute'
 import NotFoundPage from './features/notFoundPage/notFound'
 
@@ -23,6 +24,7 @@ function App() {
             <Route path="/payment" element={<Payment />} />
             <Route path="/groups" element={<GroupsPage />} />
             <Route path="/groups/:id" element={<GroupDetailPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

@@ -32,11 +32,10 @@ const Header = () => {
   ]
   return (
     <Box sx={{
-      position: 'fixed',
+      position: 'sticky',
       top: 0,
       left: 0,
       width: '100%',
-      minWidth: '100vw',
       height: { xs: 64, sm: 80 },
       boxSizing: 'border-box',
       display: 'flex',
@@ -154,6 +153,7 @@ const Header = () => {
         {/* User Avatar - Hiển thị trên desktop */}
         {user && (
           <Avatar
+            onClick={() => navigate('/profile')}
             sx={{
               display: { xs: 'none', sm: 'flex' },
               width: 40,
