@@ -1,4 +1,5 @@
 import { Box, Container, Typography, Paper } from '@mui/material'
+import Group from '../../components/group/Group'
 
 const HomePage = () => {
   return (
@@ -34,6 +35,7 @@ const HomePage = () => {
             Hệ thống quản lý và bình chọn cầu lông
           </Typography>
         </Paper>
+        <Group />
       </Container>
     </Box>
   )
