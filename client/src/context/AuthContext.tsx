@@ -1,10 +1,23 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { getCurrentUser } from '../service/apiService';
+
+interface User {
+  _id: string;
+  username: string;
+  nickname: string;
+  email: string;
+  phone?: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  login: () => void;
+  user: User | null;
+  login: () => Promise<void>;
   logout: () => void;
   loading: boolean;
+  fetchUserInfo: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
@@ -19,26 +32,63 @@ export const useAuth = () => {
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
-  // Check token khi component mount
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      setIsAuthenticated(true)
+  // Lấy thông tin user từ API
+  const fetchUserInfo = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        setUser(null)
+        return
+      }
+      const userData = await getCurrentUser(token)
+      setUser(userData)
+    } catch (error) {
+      console.error('Error fetching user info:', error)
+      setUser(null)
     }
-    setLoading(false)
+  }
+
+  // Check token và lấy user info khi component mount
+  useEffect(() => {
+    const initAuth = async () => {
+      try {
+        const token = localStorage.getItem('token')
+        if (token) {
+          setIsAuthenticated(true)
+          await fetchUserInfo()
+        } else {
+          setIsAuthenticated(false)
+          setUser(null)
+        }
+      } catch (error) {
+        console.error('Error initializing auth:', error)
+        setIsAuthenticated(false)
+        setUser(null)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    initAuth()
   }, [])
 
-  const login = () => {
+  const login = async () => {
     setIsAuthenticated(true)
+    // Lấy user info sau khi login
+    await fetchUserInfo()
   };
+
   const logout = () => {
     setIsAuthenticated(false)
+    setUser(null)
     localStorage.removeItem('token')
   }
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, loading }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, loading, fetchUserInfo }}>
       {children}
     </AuthContext.Provider>
   )

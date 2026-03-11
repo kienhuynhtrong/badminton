@@ -63,7 +63,7 @@ const Login = () => {
         localStorage.setItem('token', result.data.token)
       }
 
-      login()
+      await login()
       navigate('/')
     } catch (err: any) {
       setError(err.message || 'Email hoặc mật khẩu không đúng. Vui lòng thử lại.')

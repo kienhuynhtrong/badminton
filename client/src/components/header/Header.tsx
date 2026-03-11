@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box'
-import { Button, Typography, Drawer, IconButton } from '@mui/material'
+import { Button, Typography, Drawer, IconButton, Avatar } from '@mui/material'
 import SportsTennisIcon from '@mui/icons-material/SportsTennis'
 import LogoutIcon from '@mui/icons-material/Logout'
 import MenuIcon from '@mui/icons-material/Menu'
@@ -9,7 +9,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { useState } from 'react'
 
 const Header = () => {
-  const { logout } = useAuth()
+  const { logout, user } = useAuth()
   const navigate = useNavigate()
   const [openMenu, setOpenMenu] = useState(false)
 
@@ -17,6 +17,13 @@ const Header = () => {
     logout()
     navigate('/login')
   }
+
+  // Lấy chữ cái đầu từ tên user
+  const getAvatarLetter = () => {
+    if (!user?.nickname) return '?'
+    return user.nickname.charAt(0).toUpperCase()
+  }
+
   const listDataMenu = [
     { label: 'Hội nhóm', link: '/groups' },
     { label: 'Vote kèo', link: '/' },
@@ -144,6 +151,30 @@ const Header = () => {
           <MenuIcon />
         </IconButton>
 
+        {/* User Avatar - Hiển thị trên desktop */}
+        {user && (
+          <Avatar
+            sx={{
+              display: { xs: 'none', sm: 'flex' },
+              width: 40,
+              height: 40,
+              bgcolor: 'rgba(255, 255, 255, 0.3)',
+              color: '#fff',
+              fontWeight: 700,
+              fontSize: 16,
+              border: '2px solid rgba(255, 255, 255, 0.5)',
+              cursor: 'pointer',
+              '&:hover': {
+                bgcolor: 'rgba(255, 255, 255, 0.4)',
+              },
+              transition: 'all 0.2s',
+            }}
+            title={user.nickname}
+          >
+            {getAvatarLetter()}
+          </Avatar>
+        )}
+
         {/* Logout Button */}
         <Button
           variant="outlined"
@@ -206,6 +237,39 @@ const Header = () => {
           </IconButton>
         </Box>
         <Box sx={{ p: 2 }}>
+          {user && (
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2,
+                mb: 2,
+                pb: 2,
+                borderBottom: '1px solid #f0f0f0',
+              }}
+            >
+              <Avatar
+                sx={{
+                  width: 50,
+                  height: 50,
+                  bgcolor: '#667eea',
+                  color: '#fff',
+                  fontWeight: 700,
+                  fontSize: 18,
+                }}
+              >
+                {getAvatarLetter()}
+              </Avatar>
+              <Box>
+                <Typography sx={{ fontWeight: 700, color: '#333' }}>
+                  {user.nickname}
+                </Typography>
+                <Typography sx={{ fontSize: 12, color: '#999' }}>
+                  {user.email}
+                </Typography>
+              </Box>
+            </Box>
+          )}
           {listDataMenu.map((item, index) => (
             <Link
               to={item.link}
