@@ -12,6 +12,9 @@ const HomePage = () => {
   const handleCreateGroupClose = () => {
     setIsCreateGroupOpen(false)
   }
+  const handleSubmitCreate = (data: {name: string, description: string, maxMembers: number | null}) => {
+    console.log('Create Group with data:', data)
+  }
 
   return (
     <Box
@@ -21,33 +24,8 @@ const HomePage = () => {
       }}
     >
       <Container maxWidth="lg">
-        <Paper
-          elevation={3}
-          sx={{
-            p: { xs: 3, sm: 5 },
-            borderRadius: 3,
-            textAlign: 'center',
-            pt: 2,
-          }}
-        >
-          <Typography
-            variant="h3"
-            sx={{
-              fontWeight: 800,
-              mb: 2,
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            Chào mừng đến với Badminton Arena
-          </Typography>
-          <Typography variant="body1" sx={{ color: '#666', fontSize: 18 }}>
-            Hệ thống quản lý và bình chọn cầu lông
-          </Typography>
-        </Paper>
         <Group handleCreateGroupOpen={handleCreateGroupOpen}/>
-        <CreateGroup isOpen={isCreateGroupOpen} handleClose={handleCreateGroupClose}/>
+        <CreateGroup isOpen={isCreateGroupOpen} handleClose={handleCreateGroupClose} handleSubmitCreate={handleSubmitCreate}/>
       </Container>
     </Box>
   )

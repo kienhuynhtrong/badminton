@@ -7,6 +7,7 @@ import { Avatar } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person'
 import EmailIcon from '@mui/icons-material/Email'
 import PhoneIcon from '@mui/icons-material/Phone'
+import { getUsers } from '../../service/apiService'
 
 interface Member {
   _id: string;
@@ -87,16 +88,13 @@ const Member = () => {
   useEffect(() => {
     // Fetch danh sách hội viên từ API
     const fetchMembers = async () => {
-      const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:8000/api/users', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-      })
-      const data = await response.json()
-      setMembers(data.data)
+      try {
+        const users = await getUsers()
+        setMembers(users)
+      } catch (error) {
+        console.error('Error fetching members:', error)
+        setMembers([])
+      }
     }
     fetchMembers()
   }, [])

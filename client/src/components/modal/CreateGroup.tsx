@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Camera, Users } from 'lucide-react'
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box, Typography, IconButton, TextField, Avatar } from '@mui/material';
 
@@ -6,18 +6,48 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box, Typogra
 interface CreateGroupProps {
   isOpen: boolean;
   handleClose?: () => void;
+  handleSubmitCreate?: (data: CreateGroupFormData) => void;
 }
 interface CreateGroupFormData {
   name: string;
   description: string;
   maxMembers: number | null;
 }
-const CreateGroup = ({ isOpen, handleClose }: CreateGroupProps) => {
+interface ErrorGroup {
+  isError: boolean;
+  message: string;
+}
+const CreateGroup = ({ isOpen, handleClose, handleSubmitCreate }: CreateGroupProps) => {
   const [formData, setFormData] = useState<CreateGroupFormData>({
     name: '',
     description: '',
     maxMembers: null,
   });
+  const [nameGroupErrors, setNameGroupErrors] = useState<ErrorGroup>({
+    isError: false,
+    message: ''
+  }
+  );
+  const [descriptionGroupErrors, setDescriptionGroupErrors] = useState<ErrorGroup>({
+    isError: false,
+    message: ''
+  }
+  );
+  const handleSubmitCreateGroup = () => {
+    if (!formData.name.trim()) {
+      setNameGroupErrors({ isError: true, message: 'Tên nhóm không được để trống' });
+    } else if(!formData.maxMembers || formData.maxMembers < 1) {
+      setDescriptionGroupErrors({ isError: true, message: 'Số lượng thành viên tối đa phải lớn hơn 0' });
+    }
+    if(nameGroupErrors.isError || descriptionGroupErrors.isError) {
+      return;
+    } else {
+      setNameGroupErrors({ isError: false, message: '' });
+      setDescriptionGroupErrors({ isError: false, message: '' });
+      handleSubmitCreate?.(formData);  
+    }
+  };
+
   return (
     <Dialog open={isOpen} onClose={handleClose} fullWidth maxWidth="sm" PaperProps={{ sx: { borderRadius: 3 } }}>
       <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, pb: 1, borderBottom: '1px solid #eee' }}>
@@ -43,6 +73,8 @@ const CreateGroup = ({ isOpen, handleClose }: CreateGroupProps) => {
             label="Tên Nhóm (Bắt buộc)"
             placeholder='CLB cầu lông IT'
             value={formData.name}
+            error={nameGroupErrors.isError}
+            helperText={nameGroupErrors.message}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           />
           <TextField
@@ -68,6 +100,7 @@ const CreateGroup = ({ isOpen, handleClose }: CreateGroupProps) => {
             </Box>
           </Box>
           <TextField
+            required
             onKeyDown={(e) => {
               if (['e', 'E', '+', '-', '.'].includes(e.key)) {
                 e.preventDefault();
@@ -87,7 +120,7 @@ const CreateGroup = ({ isOpen, handleClose }: CreateGroupProps) => {
                 MozAppearance: 'textfield',
               },
             }}
-            label="Số lượng thành viên tối đa"
+            label="Số lượng thành viên tối đa (bắt buộc)"
             placeholder="Nhập số lượng thành viên tối đa..."
             InputProps={{
               inputProps: { min: 1, max: 20 } // Giới hạn từ 1 đến 20
@@ -99,7 +132,7 @@ const CreateGroup = ({ isOpen, handleClose }: CreateGroupProps) => {
       </form>
       <DialogActions>
         <Button onClick={handleClose} variant="outlined" color="inherit">Hủy Bỏ</Button>
-        <Button onClick={() => { }} variant="contained" color="primary">Tạo</Button>
+        <Button onClick={handleSubmitCreateGroup} variant="contained" color="primary">Tạo</Button>
       </DialogActions>
     </Dialog>
   );
