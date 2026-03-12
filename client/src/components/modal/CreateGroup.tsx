@@ -1,0 +1,108 @@
+import React, { useState } from 'react'
+import { Camera, Users } from 'lucide-react'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box, Typography, IconButton, TextField, Avatar } from '@mui/material';
+
+
+interface CreateGroupProps {
+  isOpen: boolean;
+  handleClose?: () => void;
+}
+interface CreateGroupFormData {
+  name: string;
+  description: string;
+  maxMembers: number | null;
+}
+const CreateGroup = ({ isOpen, handleClose }: CreateGroupProps) => {
+  const [formData, setFormData] = useState<CreateGroupFormData>({
+    name: '',
+    description: '',
+    maxMembers: null,
+  });
+  return (
+    <Dialog open={isOpen} onClose={handleClose} fullWidth maxWidth="sm" PaperProps={{ sx: { borderRadius: 3 } }}>
+      <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, pb: 1, borderBottom: '1px solid #eee' }}>
+        <Users size={24} style={{ marginRight: 8 }} />
+        <Box>
+          <Typography variant="h6" component="div">
+            Tạo Nhóm Cầu Lông Mới
+          </Typography>
+          <Typography variant="body2" color="textSecondary">Hãy điền thông tin để bắt đầu tạo hội nhóm của bạn!</Typography>
+        </Box>
+        <IconButton onClick={handleClose} sx={{ position: 'absolute', right: 8, top: 8 }}>
+          <span style={{ fontSize: 20, fontWeight: 'bold' }}>×</span>
+        </IconButton>
+      </DialogTitle>
+      <form>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            name="name"
+            required
+            fullWidth
+            label="Tên Nhóm (Bắt buộc)"
+            placeholder='CLB cầu lông IT'
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          />
+          <TextField
+            sx={{ mt: 2 }}
+            multiline
+            rows={3}
+            name="description"
+            fullWidth
+            label="Mô tả & Quy định nhóm (Tùy chọn)"
+            placeholder="Nhập quy định, trình độ yêu cầu, giờ chơi cố định, cách chia tiền sân..."
+            value={formData.description}
+            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+          />
+          <Box sx={{ mt: 2 }}>
+            <Typography variant="body2" color="text.secondary" mb={1}>
+              Ảnh đại diện nhóm (Tùy chọn)
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Avatar sx={{ width: 56, height: 56, bgcolor: 'action.hover' }}>
+                <Camera size={24} color="#757575" />
+              </Avatar>
+              <Button variant="outlined" size="small">Tải ảnh lên</Button>
+            </Box>
+          </Box>
+          <TextField
+            onKeyDown={(e) => {
+              if (['e', 'E', '+', '-', '.'].includes(e.key)) {
+                e.preventDefault();
+              }
+            }}
+            fullWidth
+            type="number"
+            sx={{
+              mt: 2, // Ẩn mũi tên trên Chrome, Safari, Edge, Opera
+              '& input[type=number]::-webkit-outer-spin-button, & input[type=number]::-webkit-inner-spin-button': {
+                display: 'none',
+                WebkitAppearance: 'none',
+                margin: 0,
+              },
+              // Ẩn mũi tên trên Firefox
+              '& input[type=number]': {
+                MozAppearance: 'textfield',
+              },
+            }}
+            label="Số lượng thành viên tối đa"
+            placeholder="Nhập số lượng thành viên tối đa..."
+            InputProps={{
+              inputProps: { min: 1, max: 20 } // Giới hạn từ 1 đến 20
+            }}
+            value={formData.maxMembers}
+            onChange={(e) => setFormData({ ...formData, maxMembers: Number(e.target.value) })}
+          />
+        </DialogContent>
+      </form>
+      <DialogActions>
+        <Button onClick={handleClose} variant="outlined" color="inherit">Hủy Bỏ</Button>
+        <Button onClick={() => { }} variant="contained" color="primary">Tạo</Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
+export default CreateGroup;

@@ -17,16 +17,15 @@ const TabPanel = (props: TabPanelProps) => {
   )
 }
 
-const Group: React.FC = () => {
+interface GroupProps {
+  handleCreateGroupOpen: () => void
+}
+
+const Group: React.FC<GroupProps> = ({ handleCreateGroupOpen }) => {
   const [tabValue, setTabValue] = useState(0)
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue)
-  }
-
-  const handleCreateGroup = () => {
-    // TODO: Mở modal tạo nhóm
-    console.log('Tạo nhóm mới')
   }
 
   return (
@@ -53,7 +52,7 @@ const Group: React.FC = () => {
           <Button
             variant="contained"
             startIcon={<AddIcon />}
-            onClick={handleCreateGroup}
+            onClick={() => handleCreateGroupOpen()}
             sx={{
               bgcolor: '#fff',
               color: '#667eea',

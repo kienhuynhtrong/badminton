@@ -1,7 +1,18 @@
 import { Box, Container, Typography, Paper } from '@mui/material'
 import Group from '../../components/group/Group'
+import React, {useState} from 'react'
+import CreateGroup from '../../components/modal/CreateGroup'
 
 const HomePage = () => {
+  const [isCreateGroupOpen, setIsCreateGroupOpen] = useState(false)
+  const handleCreateGroupOpen = () => {
+    console.log('Open Create Group Modal')
+    setIsCreateGroupOpen(true)
+  }
+  const handleCreateGroupClose = () => {
+    setIsCreateGroupOpen(false)
+  }
+
   return (
     <Box
       sx={{
@@ -35,7 +46,8 @@ const HomePage = () => {
             Hệ thống quản lý và bình chọn cầu lông
           </Typography>
         </Paper>
-        <Group />
+        <Group handleCreateGroupOpen={handleCreateGroupOpen}/>
+        <CreateGroup isOpen={isCreateGroupOpen} handleClose={handleCreateGroupClose}/>
       </Container>
     </Box>
   )
