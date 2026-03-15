@@ -3,11 +3,15 @@ import mongoose from 'mongoose';
 const groupSchema = new mongoose.Schema({
     name: { type: String, required: true },
     description: String,
-    creator_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    creator_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: [true, 'Thiếu creator_id khi tạo nhóm']
+    },
     maxMembers: { type: Number, default: 1, required: true },
     // Danh sách thành viên chính thức
     members: [{
-        user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false },
+        user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
         role: { type: String, enum: ['admin', 'member'], default: 'member', required: false },
         joinedAt: { type: Date, default: Date.now, required: false }
     }],

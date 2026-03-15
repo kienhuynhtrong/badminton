@@ -2,6 +2,7 @@ import groupService from '#services/group.service.js';
 
 // 1. Tạo nhóm
 const createGroup = async (req, res) => {
+  console.log('Received createGroup request with body:', req.user);
     try {
         const group = await groupService.createGroup(req.user._id, req.body);
 

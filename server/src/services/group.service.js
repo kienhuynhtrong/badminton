@@ -116,9 +116,20 @@ const rejectRequest = async (adminId, groupId, requestUserId) => {
     return group;
 };
 
+// 5. get list groups của cá nhân
+
+const getMyGroups = async (userId) => {
+    const groups = await Group.find({
+        'members.user_id': userId
+    });
+    return groups;
+};
+
+
 export default {
     createGroup,
     requestJoin,
     acceptRequest,
-    rejectRequest
+    rejectRequest,
+    getMyGroups,
 };

@@ -6,7 +6,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box, Typogra
 interface CreateGroupProps {
   isOpen: boolean;
   handleClose?: () => void;
-  handleSubmitCreate?: (data: CreateGroupFormData) => void;
+  handleSubmitCreate: (data: CreateGroupFormData) => Promise<void> | void;
 }
 interface CreateGroupFormData {
   name: string;
@@ -33,23 +33,47 @@ const CreateGroup = ({ isOpen, handleClose, handleSubmitCreate }: CreateGroupPro
     message: ''
   }
   );
-  const handleSubmitCreateGroup = () => {
-    if (!formData.name.trim()) {
+  const handleSubmitCreateGroup = async () => {
+    let hasError = false;
+
+    if (!formData.name) {
       setNameGroupErrors({ isError: true, message: 'Tên nhóm không được để trống' });
-    } else if(!formData.maxMembers || formData.maxMembers < 1) {
-      setDescriptionGroupErrors({ isError: true, message: 'Số lượng thành viên tối đa phải lớn hơn 0' });
-    }
-    if(nameGroupErrors.isError || descriptionGroupErrors.isError) {
-      return;
+      hasError = true;
     } else {
       setNameGroupErrors({ isError: false, message: '' });
-      setDescriptionGroupErrors({ isError: false, message: '' });
-      handleSubmitCreate?.(formData);  
     }
+
+    if (!formData.maxMembers || formData.maxMembers < 1) {
+      setDescriptionGroupErrors({ isError: true, message: 'Số lượng thành viên tối đa phải lớn hơn 0' });
+      hasError = true;
+    } else {
+      setDescriptionGroupErrors({ isError: false, message: '' });
+    }
+
+    if (hasError) return;
+
+    await handleSubmitCreate(formData);
+    setFormData({
+      name: '',
+      description: '',
+      maxMembers: null,
+    });
   };
 
+  const hanldeCloseModal = () => {
+    setFormData({
+      name: '',
+      description: '',
+      maxMembers: null,
+    });
+    setNameGroupErrors({ isError: false, message: '' });
+    setDescriptionGroupErrors({ isError: false, message: '' });
+    handleClose?.();
+  };
+
+
   return (
-    <Dialog open={isOpen} onClose={handleClose} fullWidth maxWidth="sm" PaperProps={{ sx: { borderRadius: 3 } }}>
+    <Dialog open={isOpen} onClose={hanldeCloseModal} fullWidth maxWidth="sm" PaperProps={{ sx: { borderRadius: 3 } }}>
       <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, pb: 1, borderBottom: '1px solid #eee' }}>
         <Users size={24} style={{ marginRight: 8 }} />
         <Box>
@@ -58,11 +82,14 @@ const CreateGroup = ({ isOpen, handleClose, handleSubmitCreate }: CreateGroupPro
           </Typography>
           <Typography variant="body2" color="textSecondary">Hãy điền thông tin để bắt đầu tạo hội nhóm của bạn!</Typography>
         </Box>
-        <IconButton onClick={handleClose} sx={{ position: 'absolute', right: 8, top: 8 }}>
+        <IconButton onClick={hanldeCloseModal} sx={{ position: 'absolute', right: 8, top: 8 }}>
           <span style={{ fontSize: 20, fontWeight: 'bold' }}>×</span>
         </IconButton>
       </DialogTitle>
-      <form>
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmitCreateGroup();
+      }}>
         <DialogContent>
           <TextField
             autoFocus
@@ -125,13 +152,15 @@ const CreateGroup = ({ isOpen, handleClose, handleSubmitCreate }: CreateGroupPro
             InputProps={{
               inputProps: { min: 1, max: 20 } // Giới hạn từ 1 đến 20
             }}
+            error={descriptionGroupErrors.isError}
+            helperText={descriptionGroupErrors.message}
             value={formData.maxMembers}
             onChange={(e) => setFormData({ ...formData, maxMembers: Number(e.target.value) })}
           />
         </DialogContent>
       </form>
       <DialogActions>
-        <Button onClick={handleClose} variant="outlined" color="inherit">Hủy Bỏ</Button>
+        <Button onClick={hanldeCloseModal} variant="outlined" color="inherit">Hủy Bỏ</Button>
         <Button onClick={handleSubmitCreateGroup} variant="contained" color="primary">Tạo</Button>
       </DialogActions>
     </Dialog>
