@@ -1,6 +1,10 @@
 import { Router } from 'express';
 import {
     createGroup,
+    getMyGroups,
+    getDiscoverGroups,
+    updateGroup,
+    deleteGroup,
     requestJoin,
     acceptRequest,
     rejectRequest
@@ -8,16 +12,13 @@ import {
 
 const router = Router();
 
-// Tạo nhóm mới
 router.post('/', createGroup);
-
-// Xin vào nhóm
+router.get('/me', getMyGroups);
+router.get('/discover', getDiscoverGroups);
+router.patch('/:groupId', updateGroup);
+router.delete('/:groupId', deleteGroup);
 router.post('/:groupId/join', requestJoin);
-
-// Chấp nhận yêu cầu (trưởng nhóm)
 router.post('/:groupId/requests/:userId/accept', acceptRequest);
-
-// Từ chối yêu cầu (trưởng nhóm)
 router.post('/:groupId/requests/:userId/reject', rejectRequest);
 
 export default router;

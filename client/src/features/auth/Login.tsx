@@ -1,20 +1,21 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate, Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import {
-  Box,
-  TextField,
-  Button,
-  Typography,
-  Paper,
-  InputAdornment,
-  IconButton,
-  Link,
   Alert,
+  Box,
+  Button,
   Container,
+  IconButton,
+  InputAdornment,
+  Link,
+  Paper,
+  TextField,
+  Typography,
 } from '@mui/material'
 import { Visibility, VisibilityOff, SportsTennis } from '@mui/icons-material'
 import { useAuth } from '../../context/AuthContext'
+import { loginUser, setStoredToken } from '../../service/apiService'
 
 interface LoginFormData {
   email: string
@@ -42,31 +43,19 @@ const Login = () => {
     try {
       setError('')
 
-      const response = await fetch('http://localhost:8000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password,
-        }),
+      const result = await loginUser({
+        email: data.email,
+        password: data.password,
       })
 
-      const result = await response.json()
-
-      if (!response.ok) {
-        throw new Error(result.message || 'Đăng nhập thất bại')
-      }
-
-      if (result.data?.token) {
-        localStorage.setItem('token', result.data.token)
+      if (result.token) {
+        setStoredToken(result.token)
       }
 
       await login()
       navigate('/')
-    } catch (err: any) {
-      setError(err.message || 'Email hoặc mật khẩu không đúng. Vui lòng thử lại.')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Email hoặc mật khẩu không đúng. Vui lòng thử lại.')
     }
   }
 
@@ -181,10 +170,7 @@ const Login = () => {
                 input: {
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => setShowPassword(!showPassword)}
-                        edge="end"
-                      >
+                      <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>

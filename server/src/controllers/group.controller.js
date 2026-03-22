@@ -1,6 +1,5 @@
 import groupService from '#services/group.service.js';
 
-// 1. Tạo nhóm
 const createGroup = async (req, res) => {
     try {
         const group = await groupService.createGroup(req.user._id, req.body);
@@ -15,7 +14,64 @@ const createGroup = async (req, res) => {
     }
 };
 
-// 2. Xin vào nhóm
+const getMyGroups = async (req, res) => {
+    try {
+        const groups = await groupService.getMyGroups(req.user._id);
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Lấy danh sách nhóm thành công!',
+            data: groups
+        });
+    } catch (error) {
+        res.status(400).json({ status: 'error', message: error.message });
+    }
+};
+
+const getDiscoverGroups = async (req, res) => {
+    try {
+        const groups = await groupService.getDiscoverGroups(req.user._id);
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Lấy danh sách nhóm khác thành công!',
+            data: groups
+        });
+    } catch (error) {
+        res.status(400).json({ status: 'error', message: error.message });
+    }
+};
+
+const updateGroup = async (req, res) => {
+    try {
+        const { groupId } = req.params;
+        const group = await groupService.updateGroup(req.user._id, groupId, req.body);
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Cập nhật nhóm thành công!',
+            data: group
+        });
+    } catch (error) {
+        res.status(400).json({ status: 'error', message: error.message });
+    }
+};
+
+const deleteGroup = async (req, res) => {
+    try {
+        const { groupId } = req.params;
+        const group = await groupService.deleteGroup(req.user._id, groupId);
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Xóa nhóm thành công!',
+            data: group
+        });
+    } catch (error) {
+        res.status(400).json({ status: 'error', message: error.message });
+    }
+};
+
 const requestJoin = async (req, res) => {
     try {
         const { groupId } = req.params;
@@ -25,7 +81,7 @@ const requestJoin = async (req, res) => {
 
         res.status(200).json({
             status: 'success',
-            message: 'Gửi yêu cầu tham gia thành công! Vui lòng chờ admin duyệt.',
+            message: 'Gửi yêu cầu tham gia thành công! Vui lòng chờ chủ nhóm duyệt.',
             data: group
         });
     } catch (error) {
@@ -33,7 +89,6 @@ const requestJoin = async (req, res) => {
     }
 };
 
-// 3. Chấp nhận yêu cầu
 const acceptRequest = async (req, res) => {
     try {
         const { groupId, userId } = req.params;
@@ -50,7 +105,6 @@ const acceptRequest = async (req, res) => {
     }
 };
 
-// 4. Từ chối yêu cầu
 const rejectRequest = async (req, res) => {
     try {
         const { groupId, userId } = req.params;
@@ -69,6 +123,10 @@ const rejectRequest = async (req, res) => {
 
 export {
     createGroup,
+    getMyGroups,
+    getDiscoverGroups,
+    updateGroup,
+    deleteGroup,
     requestJoin,
     acceptRequest,
     rejectRequest

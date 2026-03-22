@@ -1,31 +1,33 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
-  Container,
-  Paper,
-  TextField,
-  Button,
-  Box,
-  Typography,
   Alert,
+  Box,
+  Button,
   CircularProgress,
+  Container,
   InputAdornment,
   Link as MuiLink,
-} from '@mui/material';
-import Grid from '@mui/material/Grid';
+  Paper,
+  TextField,
+  Typography,
+} from '@mui/material'
+import Grid from '@mui/material/Grid'
 import {
   Email as EmailIcon,
   Lock as LockIcon,
   Person as PersonIcon,
   Phone as PhoneIcon,
   SportsTennis as BadmintonIcon,
-} from '@mui/icons-material';
+} from '@mui/icons-material'
+import { useAuth } from '../../context/AuthContext'
+import { registerUser, setStoredToken } from '../../service/apiService'
 
 const Register = () => {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const navigate = useNavigate()
+  const { login } = useAuth()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   const [formData, setFormData] = useState({
     username: '',
     nickname: '',
@@ -33,87 +35,76 @@ const Register = () => {
     phone: '',
     password: '',
     confirmPassword: '',
-  });
+  })
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
-    }));
-    setError('');
-  };
+    }))
+    setError('')
+  }
 
   const validateForm = () => {
     if (!formData.username.trim()) {
-      setError('Tên đăng nhập không được để trống');
-      return false;
+      setError('Tên đăng nhập không được để trống')
+      return false
     }
     if (!formData.nickname.trim()) {
-      setError('Tên hiển thị không được để trống');
-      return false;
+      setError('Tên hiển thị không được để trống')
+      return false
     }
     if (!formData.email.trim()) {
-      setError('Email không được để trống');
-      return false;
+      setError('Email không được để trống')
+      return false
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      setError('Email không hợp lệ');
-      return false;
+      setError('Email không hợp lệ')
+      return false
     }
     if (formData.password.length < 6) {
-      setError('Mật khẩu phải ít nhất 6 ký tự');
-      return false;
+      setError('Mật khẩu phải ít nhất 6 ký tự')
+      return false
     }
     if (formData.password !== formData.confirmPassword) {
-      setError('Mật khẩu xác nhận không khớp');
-      return false;
+      setError('Mật khẩu xác nhận không khớp')
+      return false
     }
-    return true;
-  };
+    return true
+  }
 
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleRegister = async (event: React.FormEvent) => {
+    event.preventDefault()
 
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      return
+    }
 
-    setLoading(true);
+    setLoading(true)
+
     try {
-      const response = await fetch('http://localhost:8000/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: formData.username,
-          nickname: formData.nickname,
-          email: formData.email,
-          phone: formData.phone,
-          password: formData.password,
-        }),
-      });
+      const result = await registerUser({
+        username: formData.username,
+        nickname: formData.nickname,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
+      })
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Đăng ký thất bại');
+      if (result.token) {
+        setStoredToken(result.token)
       }
 
-      setSuccess('Đăng ký thành công! Đang chuyển hướng...');
-      
-      if (data.data?.token) {
-        localStorage.setItem('token', data.data.token);
-      }
-      
-      setTimeout(() => {
-        navigate('/login');
-      }, 1500);
-    } catch (err: any) {
-      setError(err.message || 'Có lỗi xảy ra, vui lòng thử lại');
+      await login()
+      navigate('/')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Có lỗi xảy ra, vui lòng thử lại.')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
+
   return (
     <Box
       sx={{
@@ -133,7 +124,6 @@ const Register = () => {
             backgroundColor: '#fff',
           }}
         >
-          {/* Header */}
           <Box sx={{ textAlign: 'center', mb: 3 }}>
             <Box
               sx={{
@@ -172,7 +162,6 @@ const Register = () => {
             </Typography>
           </Box>
 
-          {/* Form */}
           <Box component="form" onSubmit={handleRegister} noValidate>
             {error && (
               <Alert severity="error" sx={{ mb: 2 }}>
@@ -180,15 +169,8 @@ const Register = () => {
               </Alert>
             )}
 
-            {success && (
-              <Alert severity="success" sx={{ mb: 2 }}>
-                {success}
-              </Alert>
-            )}
-
             <Grid container spacing={2} direction="column">
-              {/* Tên đăng nhập */}
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   fullWidth
                   label="Tên đăng nhập"
@@ -197,12 +179,14 @@ const Register = () => {
                   onChange={handleChange}
                   disabled={loading}
                   placeholder="Nhập tên đăng nhập"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <PersonIcon sx={{ color: '#667eea' }} />
-                      </InputAdornment>
-                    ),
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <PersonIcon sx={{ color: '#667eea' }} />
+                        </InputAdornment>
+                      ),
+                    },
                   }}
                   variant="outlined"
                   sx={{
@@ -218,8 +202,7 @@ const Register = () => {
                 />
               </Grid>
 
-              {/* Tên hiển thị */}
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   fullWidth
                   label="Tên hiển thị"
@@ -228,12 +211,14 @@ const Register = () => {
                   onChange={handleChange}
                   disabled={loading}
                   placeholder="Nhập tên hiển thị"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <PersonIcon sx={{ color: '#667eea' }} />
-                      </InputAdornment>
-                    ),
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <PersonIcon sx={{ color: '#667eea' }} />
+                        </InputAdornment>
+                      ),
+                    },
                   }}
                   variant="outlined"
                   sx={{
@@ -249,8 +234,7 @@ const Register = () => {
                 />
               </Grid>
 
-              {/* Email */}
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   fullWidth
                   label="Email"
@@ -260,12 +244,14 @@ const Register = () => {
                   onChange={handleChange}
                   disabled={loading}
                   placeholder="example@gmail.com"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <EmailIcon sx={{ color: '#667eea' }} />
-                      </InputAdornment>
-                    ),
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <EmailIcon sx={{ color: '#667eea' }} />
+                        </InputAdornment>
+                      ),
+                    },
                   }}
                   variant="outlined"
                   sx={{
@@ -281,8 +267,7 @@ const Register = () => {
                 />
               </Grid>
 
-              {/* Số điện thoại */}
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   fullWidth
                   label="Số điện thoại (tùy chọn)"
@@ -291,12 +276,14 @@ const Register = () => {
                   onChange={handleChange}
                   disabled={loading}
                   placeholder="0123456789"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <PhoneIcon sx={{ color: '#667eea' }} />
-                      </InputAdornment>
-                    ),
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <PhoneIcon sx={{ color: '#667eea' }} />
+                        </InputAdornment>
+                      ),
+                    },
                   }}
                   variant="outlined"
                   sx={{
@@ -312,8 +299,7 @@ const Register = () => {
                 />
               </Grid>
 
-              {/* Mật khẩu */}
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   fullWidth
                   label="Mật khẩu"
@@ -323,12 +309,14 @@ const Register = () => {
                   onChange={handleChange}
                   disabled={loading}
                   placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <LockIcon sx={{ color: '#667eea' }} />
-                      </InputAdornment>
-                    ),
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <LockIcon sx={{ color: '#667eea' }} />
+                        </InputAdornment>
+                      ),
+                    },
                   }}
                   variant="outlined"
                   sx={{
@@ -344,8 +332,7 @@ const Register = () => {
                 />
               </Grid>
 
-              {/* Xác nhận mật khẩu */}
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   fullWidth
                   label="Xác nhận mật khẩu"
@@ -355,12 +342,14 @@ const Register = () => {
                   onChange={handleChange}
                   disabled={loading}
                   placeholder="Nhập lại mật khẩu"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <LockIcon sx={{ color: '#667eea' }} />
-                      </InputAdornment>
-                    ),
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <LockIcon sx={{ color: '#667eea' }} />
+                        </InputAdornment>
+                      ),
+                    },
                   }}
                   variant="outlined"
                   sx={{
@@ -376,8 +365,7 @@ const Register = () => {
                 />
               </Grid>
 
-              {/* Nút đăng ký */}
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Button
                   fullWidth
                   type="submit"
@@ -402,27 +390,26 @@ const Register = () => {
                     },
                   }}
                 >
-                  {loading ? (
-                    <CircularProgress size={24} sx={{ color: '#fff' }} />
-                  ) : (
-                    'Đăng ký'
-                  )}
+                  {loading ? <CircularProgress size={24} sx={{ color: '#fff' }} /> : 'Đăng ký'}
                 </Button>
               </Grid>
             </Grid>
           </Box>
 
-          {/* Footer */}
           <Box sx={{ textAlign: 'center', mt: 3 }}>
             <Typography variant="body2" sx={{ color: '#666' }}>
               Đã có tài khoản?{' '}
               <MuiLink
-                component="span"
+                component="button"
+                type="button"
                 onClick={() => navigate('/login')}
                 sx={{
                   color: '#667eea',
                   fontWeight: 'bold',
                   cursor: 'pointer',
+                  border: 'none',
+                  background: 'transparent',
+                  p: 0,
                   '&:hover': {
                     textDecoration: 'underline',
                   },
@@ -435,6 +422,7 @@ const Register = () => {
         </Paper>
       </Container>
     </Box>
-  );
+  )
 }
-export default Register;
+
+export default Register

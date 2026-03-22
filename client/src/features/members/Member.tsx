@@ -1,23 +1,22 @@
-import Container from '@mui/material/Container'
-import { Box, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import { Avatar } from '@mui/material'
-import PersonIcon from '@mui/icons-material/Person'
+import { Avatar, Box, Typography } from '@mui/material'
+import Container from '@mui/material/Container'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
 import EmailIcon from '@mui/icons-material/Email'
+import PersonIcon from '@mui/icons-material/Person'
 import PhoneIcon from '@mui/icons-material/Phone'
 import { getUsers } from '../../service/apiService'
 
-interface Member {
-  _id: string;
-  username: string;
-  nickname: string;
-  email: string;
-  phone?: string;
+interface MemberData {
+  _id: string
+  username: string
+  nickname: string
+  email: string
+  phone?: string
 }
 
-const itemMember = (member: Member) => {
+const renderMemberCard = (member: MemberData) => {
   return (
     <Card
       sx={{
@@ -43,11 +42,11 @@ const itemMember = (member: Member) => {
         >
           {member.nickname?.charAt(0) || member.username?.charAt(0) || '?'}
         </Avatar>
-        
+
         <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5, color: '#1a1a1a' }}>
           {member.nickname || member.username}
         </Typography>
-        
+
         <Typography variant="caption" sx={{ color: '#999', display: 'block', mb: 2 }}>
           {member.username}
         </Typography>
@@ -83,10 +82,11 @@ const itemMember = (member: Member) => {
     </Card>
   )
 }
+
 const Member = () => {
-  const [members, setMembers] = useState<Member[]>([])
+  const [members, setMembers] = useState<MemberData[]>([])
+
   useEffect(() => {
-    // Fetch danh sách hội viên từ API
     const fetchMembers = async () => {
       try {
         const users = await getUsers()
@@ -96,59 +96,58 @@ const Member = () => {
         setMembers([])
       }
     }
-    fetchMembers()
-  }, [])
-  return (
-    <Box sx={{
-        py: 2,
-      }}>
-    <Container sx={{ my: 4, mx: 4, display: 'block' }}>
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 800, color: '#1a1a1a' }}>
-          Hội viên cầu lông
-        </Typography>
-        <Typography variant="body1" sx={{ color: '#666' }}>
-          {`Danh sách hội viên hiện có: ${members.length} người`}
-        </Typography>
-      </Box>
 
-      {members.length > 0 ? (
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: {
-              xs: '1fr',
-              sm: 'repeat(2, 1fr)',
-              md: 'repeat(3, 1fr)',
-              lg: 'repeat(4, 1fr)',
-            },
-            gap: 3,
-          }}
-        >
-          {members.map((member: Member) => (
-            <Box key={member._id}>
-              {itemMember(member)}
-            </Box>
-          ))}
-        </Box>
-      ) : (
-        <Box
-          sx={{
-            textAlign: 'center',
-            py: 6,
-            bgcolor: 'rgba(102, 126, 234, 0.05)',
-            borderRadius: 2,
-            border: '2px dashed #667eea',
-          }}
-        >
-          <PersonIcon sx={{ fontSize: 60, color: '#667eea', mb: 2 }} />
-          <Typography variant="h6" sx={{ color: '#666' }}>
-            Chưa có thành viên nào
+    void fetchMembers()
+  }, [])
+
+  return (
+    <Box sx={{ py: 2 }}>
+      <Container sx={{ my: 4, mx: 4, display: 'block' }}>
+        <Box sx={{ mb: 4 }}>
+          <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 800, color: '#1a1a1a' }}>
+            Hội viên cầu lông
+          </Typography>
+          <Typography variant="body1" sx={{ color: '#666' }}>
+            {`Danh sách hội viên hiện có: ${members.length} người`}
           </Typography>
         </Box>
-      )}
-    </Container>
+
+        {members.length > 0 ? (
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: {
+                xs: '1fr',
+                sm: 'repeat(2, 1fr)',
+                md: 'repeat(3, 1fr)',
+                lg: 'repeat(4, 1fr)',
+              },
+              gap: 3,
+            }}
+          >
+            {members.map((member) => (
+              <Box key={member._id}>{renderMemberCard(member)}</Box>
+            ))}
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              textAlign: 'center',
+              py: 6,
+              bgcolor: 'rgba(102, 126, 234, 0.05)',
+              borderRadius: 2,
+              border: '2px dashed #667eea',
+            }}
+          >
+            <PersonIcon sx={{ fontSize: 60, color: '#667eea', mb: 2 }} />
+            <Typography variant="h6" sx={{ color: '#666' }}>
+              Chưa có thành viên nào
+            </Typography>
+          </Box>
+        )}
+      </Container>
     </Box>
   )
 }
+
 export default Member
