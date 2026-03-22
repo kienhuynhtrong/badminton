@@ -1,12 +1,20 @@
-import { Box, Container, Paper, Typography, Avatar, Button, Divider } from '@mui/material'
-import { useAuth } from '../../context/AuthContext'
-import { useNavigate } from 'react-router-dom'
-import PersonIcon from '@mui/icons-material/Person'
-import EmailIcon from '@mui/icons-material/Email'
-import PhoneIcon from '@mui/icons-material/Phone'
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Divider,
+  Paper,
+  Typography,
+} from '@mui/material'
 import BadgeIcon from '@mui/icons-material/Badge'
-import LogoutIcon from '@mui/icons-material/Logout'
 import EditIcon from '@mui/icons-material/Edit'
+import EmailIcon from '@mui/icons-material/Email'
+import LogoutIcon from '@mui/icons-material/Logout'
+import PersonIcon from '@mui/icons-material/Person'
+import PhoneIcon from '@mui/icons-material/Phone'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 
 const ProfilePage = () => {
   const { user, logout } = useAuth()
@@ -17,9 +25,11 @@ const ProfilePage = () => {
     navigate('/login')
   }
 
-  // Lấy chữ cái đầu từ tên user
   const getAvatarLetter = () => {
-    if (!user?.nickname) return '?'
+    if (!user?.nickname) {
+      return '?'
+    }
+
     return user.nickname.charAt(0).toUpperCase()
   }
 
@@ -33,7 +43,6 @@ const ProfilePage = () => {
             overflow: 'hidden',
           }}
         >
-          {/* Header với Avatar */}
           <Box
             sx={{
               background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -76,7 +85,6 @@ const ProfilePage = () => {
             </Typography>
           </Box>
 
-          {/* Thông tin chi tiết */}
           <Box sx={{ p: 3 }}>
             <Typography
               variant="subtitle2"
@@ -167,14 +175,13 @@ const ProfilePage = () => {
                 </Box>
                 <Box>
                   <Typography sx={{ fontSize: 12, color: '#999' }}>Số điện thoại</Typography>
-                  <Typography sx={{ fontWeight: 600, color: '#333' }}>{user?.phone}</Typography>
+                  <Typography sx={{ fontWeight: 600, color: '#333' }}>{user.phone}</Typography>
                 </Box>
               </Box>
             )}
 
             <Divider sx={{ my: 3 }} />
 
-            {/* Các nút hành động */}
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               <Button
                 fullWidth

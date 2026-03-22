@@ -1,33 +1,38 @@
-import AuthProvider from './context/AuthContext'
+import { Suspense, lazy } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import LoginPage from './features/auth/Login'
-import Register from './features/auth/Register'
-import HomePage from './features/home/HomePage'
-import Member from './features/members/Member'
-import Payment from './features/payment/Payment'
-import GroupsPage from './features/groups/GroupsPage'
-import GroupDetailPage from './features/groups/GroupDetailPage'
-import ProfilePage from './features/profile/ProfilePage'
+import AuthProvider from './context/AuthContext'
 import ProtectedRoute from './context/ProtectedRoute'
-import NotFoundPage from './features/notFoundPage/notFound'
+import AppLoader from './components/common/AppLoader'
+
+const LoginPage = lazy(() => import('./features/auth/Login'))
+const Register = lazy(() => import('./features/auth/Register'))
+const HomePage = lazy(() => import('./features/home/HomePage'))
+const Member = lazy(() => import('./features/members/Member'))
+const Payment = lazy(() => import('./features/payment/Payment'))
+const GroupsPage = lazy(() => import('./features/groups/GroupsPage'))
+const GroupDetailPage = lazy(() => import('./features/groups/GroupDetailPage'))
+const ProfilePage = lazy(() => import('./features/profile/ProfilePage'))
+const NotFoundPage = lazy(() => import('./features/notFoundPage/notFound'))
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<Register />} />
-          <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/members" element={<Member />} />
-            <Route path="/payment" element={<Payment />} />
-            <Route path="/groups" element={<GroupsPage />} />
-            <Route path="/groups/:id" element={<GroupDetailPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-          </Route>
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+        <Suspense fallback={<AppLoader message="Đang tải trang..." />}>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<Register />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/members" element={<Member />} />
+              <Route path="/payment" element={<Payment />} />
+              <Route path="/groups" element={<GroupsPage />} />
+              <Route path="/groups/:id" element={<GroupDetailPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+            </Route>
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </AuthProvider>
   )

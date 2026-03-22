@@ -1,6 +1,5 @@
 import authService from '#services/auth.service.js';
 
-// Hàm xử lý đăng ký
 const register = async (req, res) => {
     try {
         const { username, nickname, email, phone, password } = req.body;
@@ -30,7 +29,6 @@ const register = async (req, res) => {
     }
 };
 
-// Hàm xử lý đăng nhập
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -54,8 +52,7 @@ const login = async (req, res) => {
     }
 };
 
-// Hàm xử lý đăng xuất (phía client tự xoá token)
-const logout = async (req, res) => {
+const logout = async (_req, res) => {
     res.status(200).json({
         status: 'success',
         message: 'Đăng xuất thành công!'
