@@ -1,0 +1,156 @@
+<svg width="1600" height="980" viewBox="0 0 1600 980" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="40" x2="1480" y2="920" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#667EEA"/>
+      <stop offset="1" stop-color="#7D56B5"/>
+    </linearGradient>
+    <linearGradient id="hero" x1="240" y1="140" x2="1300" y2="480" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#97B7FF" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#F4D3FF" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="button" x1="0" y1="0" x2="240" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#35C6FF"/>
+      <stop offset="1" stop-color="#4F8BFF"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="1600" height="980" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="16"/>
+      <feGaussianBlur stdDeviation="20"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.14 0 0 0 0 0.08 0 0 0 0 0.25 0 0 0 0.24 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_1"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_1" result="shape"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="980" fill="url(#bg)"/>
+  <circle cx="1420" cy="140" r="220" fill="#FFFFFF" fill-opacity="0.06"/>
+  <circle cx="180" cy="860" r="260" fill="#FFFFFF" fill-opacity="0.04"/>
+
+  <g filter="url(#shadow)">
+    <rect x="56" y="28" width="1488" height="924" rx="28" fill="#F8F7FF" fill-opacity="0.08"/>
+    <rect x="56.5" y="28.5" width="1487" height="923" rx="27.5" stroke="white" stroke-opacity="0.14"/>
+  </g>
+
+  <rect x="56" y="28" width="1488" height="96" rx="28" fill="#FFFFFF" fill-opacity="0.08"/>
+  <path d="M56 124H1544V146C1544 161.464 1531.46 174 1516 174H84C68.536 174 56 161.464 56 146V124Z" fill="#FFFFFF" fill-opacity="0.02"/>
+
+  <circle cx="108" cy="76" r="24" fill="#FFFFFF" fill-opacity="0.14"/>
+  <circle cx="108" cy="76" r="13" stroke="white" stroke-width="3"/>
+  <path d="M102 81C104.667 76.3333 111.6 67.4 118 73" stroke="white" stroke-width="3" stroke-linecap="round"/>
+
+  <text x="148" y="70" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Badminton Arena</text>
+  <text x="148" y="96" fill="white" fill-opacity="0.78" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="500">Workspace của từng nhóm</text>
+
+  <text x="1138" y="79" fill="white" fill-opacity="0.84" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">Vote kèo</text>
+  <text x="1260" y="79" fill="white" fill-opacity="0.62" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">Thanh toán</text>
+  <rect x="1136" y="90" width="94" height="4" rx="2" fill="white"/>
+  <circle cx="1388" cy="76" r="22" fill="#FFFFFF" fill-opacity="0.16"/>
+  <text x="1381" y="83" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">K</text>
+  <rect x="1432" y="58" width="90" height="36" rx="10" stroke="white" stroke-opacity="0.52"/>
+  <text x="1460" y="81" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">Thoát</text>
+
+  <rect x="120" y="154" width="1360" height="164" rx="26" fill="url(#hero)"/>
+  <rect x="120.5" y="154.5" width="1359" height="163" rx="25.5" stroke="white" stroke-opacity="0.18"/>
+
+  <text x="160" y="210" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" opacity="0.78">GROUP / CLB cầu lông IT22</text>
+  <text x="160" y="255" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="40" font-weight="800">Vote lịch chơi và quản lý thanh toán</text>
+  <text x="160" y="292" fill="white" fill-opacity="0.78" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="500">
+    Sau khi vào nhóm, user chỉ làm 2 việc chính: bình chọn sân - thời gian và theo dõi thanh toán của buổi chơi.
+  </text>
+
+  <rect x="1126" y="188" width="134" height="42" rx="21" fill="#FFFFFF" fill-opacity="0.16"/>
+  <text x="1154" y="214" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">12 thành viên</text>
+  <rect x="1274" y="188" width="158" height="42" rx="21" fill="#FFFFFF" fill-opacity="0.16"/>
+  <text x="1310" y="214" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">Chủ nhóm</text>
+
+  <rect x="120" y="348" width="950" height="548" rx="28" fill="#FFFFFF" fill-opacity="0.14"/>
+  <rect x="120.5" y="348.5" width="949" height="547" rx="27.5" stroke="white" stroke-opacity="0.14"/>
+
+  <rect x="1096" y="348" width="384" height="548" rx="28" fill="#FFFFFF" fill-opacity="0.12"/>
+  <rect x="1096.5" y="348.5" width="383" height="547" rx="27.5" stroke="white" stroke-opacity="0.14"/>
+
+  <rect x="152" y="380" width="210" height="48" rx="24" fill="url(#button)"/>
+  <text x="212" y="410" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="800">1. Vote lịch chơi</text>
+  <rect x="378" y="380" width="174" height="48" rx="24" fill="#FFFFFF" fill-opacity="0.08"/>
+  <text x="423" y="410" fill="white" fill-opacity="0.72" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">2. Thanh toán</text>
+
+  <text x="152" y="470" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="800">Bình chọn cho buổi chơi tuần này</text>
+  <text x="152" y="500" fill="white" fill-opacity="0.76" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="500">
+    Mỗi nhóm có một phiên vote. Thành viên chọn thời gian, địa điểm và số sân mong muốn.
+  </text>
+
+  <rect x="152" y="534" width="410" height="146" rx="24" fill="#FFFFFF" fill-opacity="0.1"/>
+  <text x="180" y="574" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">Khung giờ</text>
+  <rect x="180" y="595" width="158" height="40" rx="20" fill="#FFFFFF" fill-opacity="0.16"/>
+  <text x="209" y="620" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">T3 - 19:00 đến 21:00</text>
+  <rect x="350" y="595" width="180" height="40" rx="20" fill="#35C6FF" fill-opacity="0.82"/>
+  <text x="380" y="620" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="800">T5 - 19:00 đến 21:00</text>
+  <rect x="180" y="644" width="162" height="40" rx="20" fill="#FFFFFF" fill-opacity="0.16"/>
+  <text x="212" y="669" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">CN - 08:00 đến 10:00</text>
+
+  <rect x="578" y="534" width="460" height="146" rx="24" fill="#FFFFFF" fill-opacity="0.1"/>
+  <text x="606" y="574" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">Địa điểm / sân</text>
+  <rect x="606" y="595" width="198" height="40" rx="20" fill="#35C6FF" fill-opacity="0.82"/>
+  <text x="652" y="620" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="800">Sân Lan Anh</text>
+  <rect x="816" y="595" width="192" height="40" rx="20" fill="#FFFFFF" fill-opacity="0.16"/>
+  <text x="860" y="620" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">Sân Phú Thọ</text>
+  <text x="606" y="662" fill="white" fill-opacity="0.76" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="500">
+    Gợi ý chọn thêm:
+  </text>
+  <rect x="730" y="646" width="60" height="28" rx="14" fill="#FFFFFF" fill-opacity="0.14"/>
+  <text x="753" y="665" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">2 sân</text>
+  <rect x="798" y="646" width="66" height="28" rx="14" fill="#35C6FF" fill-opacity="0.82"/>
+  <text x="821" y="665" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="800">3 sân</text>
+  <rect x="872" y="646" width="68" height="28" rx="14" fill="#FFFFFF" fill-opacity="0.14"/>
+  <text x="895" y="665" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">4 sân</text>
+
+  <rect x="152" y="706" width="886" height="158" rx="24" fill="#FFFFFF" fill-opacity="0.1"/>
+  <text x="180" y="746" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">Kết quả tạm thời</text>
+  <rect x="180" y="770" width="540" height="14" rx="7" fill="#FFFFFF" fill-opacity="0.12"/>
+  <rect x="180" y="770" width="356" height="14" rx="7" fill="#35C6FF"/>
+  <text x="736" y="781" fill="white" fill-opacity="0.74" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="600">T5 - 19:00: 8 phiếu</text>
+  <rect x="180" y="806" width="540" height="14" rx="7" fill="#FFFFFF" fill-opacity="0.12"/>
+  <rect x="180" y="806" width="284" height="14" rx="7" fill="#9EAEFF"/>
+  <text x="736" y="817" fill="white" fill-opacity="0.74" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="600">Sân Lan Anh: 6 phiếu</text>
+  <rect x="180" y="842" width="540" height="14" rx="7" fill="#FFFFFF" fill-opacity="0.12"/>
+  <rect x="180" y="842" width="400" height="14" rx="7" fill="#6FE3C1"/>
+  <text x="736" y="853" fill="white" fill-opacity="0.74" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="600">3 sân: 9 phiếu</text>
+
+  <rect x="808" y="756" width="202" height="52" rx="18" fill="url(#button)"/>
+  <text x="859" y="788" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="800">Gửi bình chọn</text>
+  <rect x="808" y="818" width="202" height="52" rx="18" fill="#FFFFFF" fill-opacity="0.12"/>
+  <text x="849" y="850" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">Khóa phiên vote</text>
+
+  <text x="1132" y="398" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="800">Thanh toán buổi chơi</text>
+  <text x="1132" y="428" fill="white" fill-opacity="0.74" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="500">
+    Tab này dùng sau khi chốt sân và có chi phí thực tế.
+  </text>
+
+  <rect x="1132" y="456" width="312" height="94" rx="22" fill="#FFFFFF" fill-opacity="0.1"/>
+  <text x="1158" y="491" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">Tổng chi phí sân</text>
+  <text x="1158" y="529" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="800">540.000đ</text>
+  <rect x="1340" y="477" width="78" height="30" rx="15" fill="#6FE3C1" fill-opacity="0.22"/>
+  <text x="1360" y="497" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">Đã chốt</text>
+
+  <rect x="1132" y="570" width="312" height="222" rx="22" fill="#FFFFFF" fill-opacity="0.1"/>
+  <text x="1158" y="604" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">Danh sách đóng tiền</text>
+  <rect x="1158" y="624" width="260" height="1" fill="white" fill-opacity="0.14"/>
+  <text x="1158" y="660" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">Kiên Huỳnh</text>
+  <text x="1328" y="660" fill="#6FE3C1" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="800">Đã trả</text>
+  <text x="1158" y="691" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">An Nguyễn</text>
+  <text x="1315" y="691" fill="#FFD978" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="800">Chờ thanh toán</text>
+  <text x="1158" y="722" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">Minh Trần</text>
+  <text x="1328" y="722" fill="#6FE3C1" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="800">Đã trả</text>
+  <text x="1158" y="753" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">Linh Phạm</text>
+  <text x="1315" y="753" fill="#FFD978" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="800">Chờ thanh toán</text>
+
+  <rect x="1132" y="812" width="150" height="48" rx="18" fill="#FFFFFF" fill-opacity="0.12"/>
+  <text x="1168" y="842" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">Nhắc thanh toán</text>
+  <rect x="1294" y="812" width="150" height="48" rx="18" fill="url(#button)"/>
+  <text x="1334" y="842" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="800">Xem chi tiết</text>
+
+  <text x="120" y="932" fill="white" fill-opacity="0.74" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="500">
+    Gợi ý flow: Chọn group → Vote lịch và sân → Chủ nhóm chốt kết quả → Tab thanh toán mở số tiền theo buổi chơi
+  </text>
+</svg>

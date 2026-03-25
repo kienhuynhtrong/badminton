@@ -4,6 +4,7 @@ import Group, { type GroupData } from '../../components/group/Group'
 import CreateGroup, { type CreateGroupFormData } from '../../components/modal/CreateGroup'
 import { apiRequest } from '../../service/apiService'
 import { useAuth } from '../../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 interface FeedbackState {
   message: string
@@ -12,6 +13,7 @@ interface FeedbackState {
 
 const HomePage = () => {
   const { user } = useAuth()
+  const navigate = useNavigate()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isGroupsLoading, setIsGroupsLoading] = useState(false)
   const [isCreateGroupOpen, setIsCreateGroupOpen] = useState(false)
@@ -240,6 +242,10 @@ const HomePage = () => {
     }
   }
 
+  const handleOpenGroup = (group: GroupData) => {
+    navigate(`/groups/${group._id}`)
+  }
+
   return (
     <>
       <Backdrop
@@ -272,6 +278,7 @@ const HomePage = () => {
             processingRequestKey={processingRequestKey}
             onDeleteGroup={handleDeleteGroup}
             onEditGroup={handleEditGroup}
+            onOpenGroup={handleOpenGroup}
             onRequestJoin={handleRequestJoin}
             onAcceptRequest={handleAcceptRequest}
             onRejectRequest={handleRejectRequest}

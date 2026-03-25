@@ -9,7 +9,6 @@ const Register = lazy(() => import('./features/auth/Register'))
 const HomePage = lazy(() => import('./features/home/HomePage'))
 const Member = lazy(() => import('./features/members/Member'))
 const Payment = lazy(() => import('./features/payment/Payment'))
-const GroupsPage = lazy(() => import('./features/groups/GroupsPage'))
 const GroupDetailPage = lazy(() => import('./features/groups/GroupDetailPage'))
 const ProfilePage = lazy(() => import('./features/profile/ProfilePage'))
 const NotFoundPage = lazy(() => import('./features/notFoundPage/notFound'))
@@ -26,7 +25,6 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/members" element={<Member />} />
               <Route path="/payment" element={<Payment />} />
-              <Route path="/groups" element={<GroupsPage />} />
               <Route path="/groups/:id" element={<GroupDetailPage />} />
               <Route path="/profile" element={<ProfilePage />} />
             </Route>

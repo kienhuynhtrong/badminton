@@ -1,4 +1,5 @@
 import groupService from '#services/group.service.js';
+import eventService from '#services/event.service.js';
 
 const createGroup = async (req, res) => {
     try {
@@ -36,6 +37,21 @@ const getDiscoverGroups = async (req, res) => {
             status: 'success',
             message: 'Lấy danh sách nhóm khác thành công!',
             data: groups
+        });
+    } catch (error) {
+        res.status(400).json({ status: 'error', message: error.message });
+    }
+};
+
+const getGroupWorkspace = async (req, res) => {
+    try {
+        const { groupId } = req.params;
+        const workspace = await eventService.getGroupWorkspace(req.user._id, groupId);
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Lấy dữ liệu nhóm thành công!',
+            data: workspace
         });
     } catch (error) {
         res.status(400).json({ status: 'error', message: error.message });
@@ -125,6 +141,7 @@ export {
     createGroup,
     getMyGroups,
     getDiscoverGroups,
+    getGroupWorkspace,
     updateGroup,
     deleteGroup,
     requestJoin,

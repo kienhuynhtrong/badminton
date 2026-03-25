@@ -1,36 +1,100 @@
 import eventService from '#services/event.service.js';
 
-// 1. Tạo event
 const createEvent = async (req, res) => {
     try {
-        const event = await eventService.createEvent(req.user._id, req.body);
+        const groupId = req.params.groupId || req.body.group_id || req.body.groupId;
+        const workspace = await eventService.createGroupEvent(req.user._id, groupId, req.body);
 
         res.status(201).json({
             status: 'success',
-            message: 'Tạo event thành công!',
-            data: event
+            message: 'Tạo phiên vote thành công!',
+            data: workspace
         });
     } catch (error) {
         res.status(400).json({ status: 'error', message: error.message });
     }
 };
 
-// 2. Cập nhật trạng thái tham gia
-const updateStatus = async (req, res) => {
+const submitVote = async (req, res) => {
     try {
-        const { eventId } = req.params;
-        const { status } = req.body;
-
-        const event = await eventService.updateAttendeeStatus(req.user._id, eventId, status);
+        const { groupId, eventId } = req.params;
+        const workspace = await eventService.submitVote(req.user._id, groupId, eventId, req.body);
 
         res.status(200).json({
             status: 'success',
-            message: status === 'confirm' ? 'Đã xác nhận tham gia!' : 'Đã cập nhật trạng thái bận.',
-            data: event
+            message: 'Đã lưu bình chọn của bạn!',
+            data: workspace
         });
     } catch (error) {
         res.status(400).json({ status: 'error', message: error.message });
     }
 };
 
-export { createEvent, updateStatus };
+const lockEvent = async (req, res) => {
+    try {
+        const { groupId, eventId } = req.params;
+        const workspace = await eventService.lockEvent(req.user._id, groupId, eventId, req.body);
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Đã chốt kết quả buổi chơi!',
+            data: workspace
+        });
+    } catch (error) {
+        res.status(400).json({ status: 'error', message: error.message });
+    }
+};
+
+const updatePayment = async (req, res) => {
+    try {
+        const { groupId, eventId } = req.params;
+        const workspace = await eventService.updatePayment(req.user._id, groupId, eventId, req.body);
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Đã cập nhật phần thanh toán.',
+            data: workspace
+        });
+    } catch (error) {
+        res.status(400).json({ status: 'error', message: error.message });
+    }
+};
+
+const togglePaymentStatus = async (req, res) => {
+    try {
+        const { groupId, eventId, userId } = req.params;
+        const workspace = await eventService.togglePaymentStatus(req.user._id, groupId, eventId, userId, req.body);
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Đã cập nhật trạng thái thanh toán.',
+            data: workspace
+        });
+    } catch (error) {
+        res.status(400).json({ status: 'error', message: error.message });
+    }
+};
+
+const completeEvent = async (req, res) => {
+    try {
+        const { groupId, eventId } = req.params;
+        const workspace = await eventService.completeEvent(req.user._id, groupId, eventId);
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Buổi chơi đã được hoàn tất.',
+            data: workspace
+        });
+    } catch (error) {
+        res.status(400).json({ status: 'error', message: error.message });
+    }
+};
+
+export {
+    createEvent,
+    submitVote,
+    lockEvent,
+    updatePayment,
+    togglePaymentStatus,
+    completeEvent
+};
