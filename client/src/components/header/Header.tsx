@@ -5,12 +5,19 @@ import LogoutIcon from '@mui/icons-material/Logout'
 import MenuIcon from '@mui/icons-material/Menu'
 import CloseIcon from '@mui/icons-material/Close'
 import { useAuth } from '../../context/AuthContext'
-import { useNavigate, Link } from 'react-router-dom'
+import { useLocation, useNavigate, Link } from 'react-router-dom'
 import { useState } from 'react'
+
+interface MenuItemData {
+  label: string
+  link: string
+  isActive: boolean
+}
 
 const Header = () => {
   const { logout, user } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
   const [openMenu, setOpenMenu] = useState(false)
 
   const handleLogout = () => {
@@ -18,18 +25,24 @@ const Header = () => {
     navigate('/login')
   }
 
-  // Lấy chữ cái đầu từ tên user
   const getAvatarLetter = () => {
     if (!user?.nickname) return '?'
     return user.nickname.charAt(0).toUpperCase()
   }
 
-  const listDataMenu = [
-    { label: 'Hội nhóm', link: '/groups' },
-    { label: 'Vote kèo', link: '/' },
-    { label: 'Thành viên', link: '/members' },
-    { label: 'Tính tiền', link: '/payment' },
-  ]
+  const isGroupWorkspace = /^\/groups\/[^/]+$/.test(location.pathname)
+  const activeGroupTab = location.search === '?tab=payment' ? 'payment' : 'vote'
+
+  const listDataMenu: MenuItemData[] = isGroupWorkspace
+    ? [
+        { label: 'Vote kèo', link: `${location.pathname}?tab=vote`, isActive: activeGroupTab === 'vote' },
+        { label: 'Thanh toán', link: `${location.pathname}?tab=payment`, isActive: activeGroupTab === 'payment' },
+      ]
+    : [
+        { label: 'Hội nhóm', link: '/', isActive: location.pathname === '/' },
+        { label: 'Thành viên', link: '/members', isActive: location.pathname === '/members' },
+      ]
+
   return (
     <Box sx={{
       position: 'sticky',
@@ -99,7 +112,7 @@ const Header = () => {
                 fontSize: { xs: 11, sm: 14 },
               }}
             >
-              Quản lý và bình chọn
+              {isGroupWorkspace ? 'Vote và thanh toán theo từng nhóm' : 'Quản lý nhóm và bình chọn'}
             </Typography>
           </Link>
         </Box>
@@ -109,37 +122,33 @@ const Header = () => {
         alignItems: 'center',
         gap: { xs: 2, sm: 3 },
       }}>
-        {/* Desktop Menu - Ẩn trên mobile */}
         <Box sx={{
           display: { xs: 'none', md: 'flex' },
           alignItems: 'center',
           gap: 3,
         }}>
-          {
-            listDataMenu.map((item, index) => (
-              <Link
-                to={item.link}
-                key={index}
-                style={{ textDecoration: 'none' }}
+          {listDataMenu.map((item, index) => (
+            <Link
+              to={item.link}
+              key={index}
+              style={{ textDecoration: 'none' }}
+            >
+              <Typography
+                variant="body1"
+                sx={{
+                  color: item.isActive ? '#fff' : 'rgba(255, 255, 255, 0.78)',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  '&:hover': { color: '#fff' },
+                  transition: 'color 0.2s',
+                }}
               >
-                <Typography
-                  variant="body1"
-                  sx={{
-                    color: 'rgba(255, 255, 255, 0.8)',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    '&:hover': { color: '#fff' },
-                    transition: 'color 0.2s',
-                  }}
-                >
-                  {item.label}
-                </Typography>
-              </Link>
-            ))
-          }
+                {item.label}
+              </Typography>
+            </Link>
+          ))}
         </Box>
 
-        {/* Hamburger Menu - Chỉ hiển thị trên mobile */}
         <IconButton
           onClick={() => setOpenMenu(true)}
           sx={{
@@ -150,7 +159,6 @@ const Header = () => {
           <MenuIcon />
         </IconButton>
 
-        {/* User Avatar - Hiển thị trên desktop */}
         {user && (
           <Avatar
             onClick={() => navigate('/profile')}
@@ -175,7 +183,6 @@ const Header = () => {
           </Avatar>
         )}
 
-        {/* Logout Button */}
         <Button
           variant="outlined"
           startIcon={<LogoutIcon />}
@@ -195,7 +202,6 @@ const Header = () => {
           Đăng xuất
         </Button>
 
-        {/* Logout Icon Button - Chỉ hiển thị trên mobile */}
         <IconButton
           onClick={handleLogout}
           sx={{
@@ -207,7 +213,6 @@ const Header = () => {
         </IconButton>
       </Box>
 
-      {/* Mobile Menu Drawer */}
       <Drawer
         anchor="right"
         open={openMenu}
@@ -280,8 +285,8 @@ const Header = () => {
               <Typography
                 sx={{
                   py: 1.5,
-                  color: '#667eea',
-                  fontWeight: 600,
+                  color: item.isActive ? '#4f46e5' : '#667eea',
+                  fontWeight: 700,
                   cursor: 'pointer',
                   borderBottom: '1px solid #f0f0f0',
                   '&:hover': {
@@ -320,4 +325,5 @@ const Header = () => {
     </Box>
   )
 }
+
 export default Header

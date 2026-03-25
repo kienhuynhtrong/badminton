@@ -1,12 +1,21 @@
 import { Router } from 'express';
-import { createEvent, updateStatus } from '#controllers/event.controller.js';
+import {
+    createEvent,
+    submitVote,
+    lockEvent,
+    updatePayment,
+    togglePaymentStatus,
+    completeEvent
+} from '#controllers/event.controller.js';
 
 const router = Router();
 
-// Tạo event mới (trưởng nhóm)
+// Legacy routes kept for compatibility. New UI uses nested /groups/:groupId/events APIs.
 router.post('/', createEvent);
-
-// Cập nhật trạng thái tham gia (confirm / busy)
-router.patch('/:eventId/status', updateStatus);
+router.post('/:eventId/vote', submitVote);
+router.post('/:eventId/lock', lockEvent);
+router.patch('/:eventId/payment', updatePayment);
+router.post('/:eventId/payment/:userId/toggle', togglePaymentStatus);
+router.post('/:eventId/complete', completeEvent);
 
 export default router;

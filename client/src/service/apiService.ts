@@ -39,6 +39,149 @@ export interface RegisterPayload {
   password: string
 }
 
+export type GroupRole = 'admin' | 'member'
+export type GroupEventStatus = 'voting' | 'locked' | 'completed'
+
+export interface GroupWorkspaceMember {
+  userId: string
+  nickname: string
+  username: string
+  email: string
+  role: GroupRole
+  joinedAt?: string
+}
+
+export interface WorkspaceGroup {
+  _id: string
+  name: string
+  description: string
+  avatar: string
+  creator_id: string
+  maxMembers: number
+  memberCount: number
+  myRole: GroupRole
+  members: GroupWorkspaceMember[]
+}
+
+export interface EventVoteSelection {
+  scheduleOptionId: string
+  locationOptionId: string
+  courtOptionId: string
+  note: string
+  votedAt: string
+}
+
+export interface ScheduleVoteOption {
+  _id: string
+  label: string
+  startAt?: string | null
+  endAt?: string | null
+  voteCount: number
+  isMyChoice: boolean
+}
+
+export interface LocationVoteOption {
+  _id: string
+  label: string
+  address: string
+  voteCount: number
+  isMyChoice: boolean
+}
+
+export interface CourtVoteOption {
+  _id: string
+  label: string
+  courtCount: number
+  voteCount: number
+  isMyChoice: boolean
+}
+
+export interface EventFinalSelection {
+  scheduleOptionId: string
+  locationOptionId: string
+  courtOptionId: string
+  scheduleLabel: string
+  locationLabel: string
+  locationAddress: string
+  courtLabel: string
+  courtCount: number
+  lockedAt?: string | null
+  lockedBy: string
+}
+
+export interface PaymentItem {
+  userId: string
+  nickname: string
+  username: string
+  email: string
+  amount: number
+  isPaid: boolean
+  paidAt?: string | null
+}
+
+export interface EventPaymentSummary {
+  totalCost: number
+  note: string
+  paidCount: number
+  pendingCount: number
+  items: PaymentItem[]
+}
+
+export interface GroupEvent {
+  _id: string
+  title: string
+  description: string
+  status: GroupEventStatus
+  createdAt: string
+  updatedAt: string
+  memberCount: number
+  totalVotes: number
+  myVote: EventVoteSelection | null
+  scheduleOptions: ScheduleVoteOption[]
+  locationOptions: LocationVoteOption[]
+  courtOptions: CourtVoteOption[]
+  finalSelection: EventFinalSelection | null
+  payment: EventPaymentSummary
+  permissions: {
+    canManage: boolean
+  }
+}
+
+export interface GroupWorkspace {
+  group: WorkspaceGroup
+  activeEvent: GroupEvent | null
+}
+
+export interface VoteOptionInput {
+  label: string
+  startAt?: string | null
+  endAt?: string | null
+  address?: string
+  courtCount?: number
+}
+
+export interface CreateGroupEventPayload {
+  title: string
+  description?: string
+  scheduleOptions: VoteOptionInput[]
+  locationOptions: VoteOptionInput[]
+  courtOptions: VoteOptionInput[]
+  totalCost?: number
+  paymentNote?: string
+}
+
+export interface SubmitVotePayload {
+  scheduleOptionId: string
+  locationOptionId: string
+  courtOptionId: string
+  note?: string
+}
+
+export interface UpdatePaymentPayload {
+  totalCost: number
+  note?: string
+}
+
 interface ApiRequestOptions extends RequestInit {
   useAuthToken?: boolean
 }
@@ -132,5 +275,75 @@ export const getCurrentUser = async (token: string): Promise<User | null> => {
 export const getUsers = async (): Promise<User[]> => {
   return apiRequest<User[]>('/users', {
     method: 'GET',
+  })
+}
+
+export const getGroupWorkspace = async (groupId: string): Promise<GroupWorkspace> => {
+  return apiRequest<GroupWorkspace>(`/groups/${groupId}/workspace`, {
+    method: 'GET',
+  })
+}
+
+export const createGroupEvent = async (
+  groupId: string,
+  payload: CreateGroupEventPayload
+): Promise<GroupWorkspace> => {
+  return apiRequest<GroupWorkspace>(`/groups/${groupId}/events`, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
+export const submitGroupEventVote = async (
+  groupId: string,
+  eventId: string,
+  payload: SubmitVotePayload
+): Promise<GroupWorkspace> => {
+  return apiRequest<GroupWorkspace>(`/groups/${groupId}/events/${eventId}/vote`, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
+export const lockGroupEvent = async (
+  groupId: string,
+  eventId: string
+): Promise<GroupWorkspace> => {
+  return apiRequest<GroupWorkspace>(`/groups/${groupId}/events/${eventId}/lock`, {
+    method: 'POST',
+    body: JSON.stringify({}),
+  })
+}
+
+export const updateGroupEventPayment = async (
+  groupId: string,
+  eventId: string,
+  payload: UpdatePaymentPayload
+): Promise<GroupWorkspace> => {
+  return apiRequest<GroupWorkspace>(`/groups/${groupId}/events/${eventId}/payment`, {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
+  })
+}
+
+export const toggleGroupEventPayment = async (
+  groupId: string,
+  eventId: string,
+  userId: string,
+  isPaid?: boolean
+): Promise<GroupWorkspace> => {
+  return apiRequest<GroupWorkspace>(`/groups/${groupId}/events/${eventId}/payment/${userId}/toggle`, {
+    method: 'POST',
+    body: JSON.stringify(typeof isPaid === 'boolean' ? { isPaid } : {}),
+  })
+}
+
+export const completeGroupEvent = async (
+  groupId: string,
+  eventId: string
+): Promise<GroupWorkspace> => {
+  return apiRequest<GroupWorkspace>(`/groups/${groupId}/events/${eventId}/complete`, {
+    method: 'POST',
+    body: JSON.stringify({}),
   })
 }

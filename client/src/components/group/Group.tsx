@@ -87,6 +87,7 @@ interface GroupProps {
   processingRequestKey?: string | null
   onDeleteGroup: (group: GroupData) => Promise<void> | void
   onEditGroup: (group: GroupData) => void
+  onOpenGroup: (group: GroupData) => void
   onRequestJoin: (group: GroupData) => Promise<void> | void
   onAcceptRequest: (groupId: string, userId: string) => Promise<void> | void
   onRejectRequest: (groupId: string, userId: string) => Promise<void> | void
@@ -114,6 +115,7 @@ const Group: React.FC<GroupProps> = ({
   processingRequestKey = null,
   onDeleteGroup,
   onEditGroup,
+  onOpenGroup,
   onRequestJoin,
   onAcceptRequest,
   onRejectRequest,
@@ -359,6 +361,26 @@ const Group: React.FC<GroupProps> = ({
                         </Box>
                       </Box>
                     )}
+
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mt: 2, flexWrap: 'wrap' }}>
+                      <Button
+                        variant="contained"
+                        disableElevation
+                        onClick={() => onOpenGroup(group)}
+                        sx={{
+                          textTransform: 'none',
+                          fontWeight: 700,
+                          borderRadius: 2,
+                          bgcolor: '#fff',
+                          color: '#667eea',
+                          '&:hover': {
+                            bgcolor: 'rgba(255,255,255,0.92)',
+                          },
+                        }}
+                      >
+                        Vào nhóm
+                      </Button>
+                    </Box>
 
                     {creator && (
                       <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mt: 2, flexWrap: 'wrap' }}>

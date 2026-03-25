@@ -1,3 +1,4 @@
+import Event from '#models/event.model.js';
 import Group from '#models/group.model.js';
 
 const PENDING_REQUEST_POPULATE = {
@@ -60,8 +61,18 @@ const serializeGroup = (group, userId) => {
 };
 
 const createGroup = async (userId, groupData) => {
+    if (!groupData?.name?.trim()) {
+        throw new Error('Tên nhóm không được để trống');
+    }
+
+    if (!groupData?.maxMembers || Number(groupData.maxMembers) < 1) {
+        throw new Error('Số lượng thành viên tối đa phải lớn hơn 0');
+    }
+
     const group = await Group.create({
         ...groupData,
+        name: groupData.name.trim(),
+        description: groupData.description?.trim() || '',
         creator_id: userId,
         members: [{
             user_id: userId,
@@ -111,8 +122,8 @@ const updateGroup = async (userId, groupId, groupData) => {
         throw new Error('Số lượng thành viên tối đa không được nhỏ hơn số thành viên hiện tại');
     }
 
-    group.name = groupData.name ?? group.name;
-    group.description = groupData.description ?? group.description;
+    group.name = groupData.name?.trim() || group.name;
+    group.description = groupData.description?.trim() ?? group.description;
     group.avatar = groupData.avatar ?? group.avatar;
     group.maxMembers = groupData.maxMembers ?? group.maxMembers;
 
@@ -241,7 +252,11 @@ const deleteGroup = async (userId, groupId) => {
         throw new Error('Bạn chỉ có thể xóa nhóm do mình tạo');
     }
 
-    await Group.findByIdAndDelete(groupId);
+    await Promise.all([
+        Group.findByIdAndDelete(groupId),
+        Event.deleteMany({ group_id: groupId })
+    ]);
+
     return group;
 };
 
